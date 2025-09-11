@@ -1,0 +1,95 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 80px; /* Space for navbar */
+}
+
+/* Container for pages */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Page headers */
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #25d366;
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* Loading states */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #25d366;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error states */
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #e74c3c;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Success states */
+.success {
+  text-align: center;
+  padding: 2rem;
+  color: #27ae60;
+}
+
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 70px;
+  }
+  
+  .page-container {
+    padding: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+} 

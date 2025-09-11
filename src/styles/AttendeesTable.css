@@ -1,0 +1,277 @@
+.attendees-table-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.table-header {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-info h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.verified-count {
+  color: #16a34a;
+  font-size: 1.2rem;
+}
+
+.total-count {
+  font-size: 1.2rem;
+}
+
+.separator {
+  opacity: 0.7;
+}
+
+.verified-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.clear-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.clear-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.table-controls {
+  padding: 1.5rem 2rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-container {
+  flex: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #25d366;
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+}
+
+.sort-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #25d366;
+}
+
+.table-wrapper {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.attendees-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.attendees-table th {
+  background: #f8f9fa;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.attendees-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
+}
+
+.attendee-row {
+  transition: all 0.3s ease;
+}
+
+.attendee-row:hover {
+  background: #f8f9fa;
+}
+
+.attendee-row.verified {
+  background: #dcfce7;
+  border-left: 4px solid #16a34a;
+}
+
+.attendee-row.verified:hover {
+  background: #bbf7d0;
+}
+
+.name-cell {
+  font-weight: 500;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.verified-smile {
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+.attendee-row.not-verified {
+  background: white;
+}
+
+.status-cell {
+  width: 60px;
+  text-align: center;
+}
+
+.verified-icon {
+  color: #16a34a;
+}
+
+.not-verified-icon {
+  color: #9ca3af;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.name-cell {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.time-cell {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.action-cell {
+  width: 120px;
+  text-align: center;
+}
+
+.verify-button {
+  background: #25d366;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.verify-button:hover {
+  background: #128c7e;
+  transform: translateY(-1px);
+}
+
+.no-results {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #6b7280;
+  background: #f8f9fa;
+}
+
+.no-results p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .table-controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .attendees-table th,
+  .attendees-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .time-cell {
+    display: none;
+  }
+  
+  .action-cell {
+    width: 80px;
+  }
+  
+  .verify-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+} 
