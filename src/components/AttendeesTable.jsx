@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, Users, RefreshCw, Smile } from 'lucide-react';
 import { 
   attendeesList, 
+  attendeesDetails,
   getVerificationStatus, 
-  markAttendeeAsVerified 
+  markAttendeeAsVerified
 } from '../data/attendees';
 import '../styles/AttendeesTable.css';
 
@@ -32,7 +33,7 @@ const AttendeesTable = () => {
     }
   };
 
-  // Filtrar y ordenar la lista
+  // Filtrar y ordenar la lista (sin deduplicar, mantener todas las filas)
   const filteredAndSortedAttendees = attendeesList
     .filter(attendee => 
       attendee.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,8 +50,8 @@ const AttendeesTable = () => {
       return a.localeCompare(b);
     });
 
-  const verifiedCount = Object.values(verificationStatus).filter(status => status.verified).length;
-  const totalCount = attendeesList.length;
+  const verifiedCount = Object.values(verificationStatus).filter(status => status.socialVerified || status.verified).length;
+  const totalCount = attendeesDetails.length;
 
   return (
     <div className="attendees-table-container">
@@ -112,21 +113,22 @@ const AttendeesTable = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredAndSortedAttendees.map((attendee) => {
-              const isVerified = verificationStatus[attendee]?.verified || false;
-              const verifiedAt = verificationStatus[attendee]?.verifiedAt || '';
+            {filteredAndSortedAttendees.map((attendee, idx) => {
+              const v = verificationStatus[attendee] || {};
+              const isVerified = v.socialVerified || v.verified || false;
+              const verifiedAt = v.socialVerifiedAt || v.verifiedAt || '';
               
               return (
                 <tr 
-                  key={attendee} 
+                  key={`${attendee}-${idx}`} 
                   className={`attendee-row ${isVerified ? 'verified' : 'not-verified'}`}
                 >
                   <td className="status-cell">
-                    {isVerified ? (
-                      <CheckCircle size={20} className="verified-icon" />
-                    ) : (
-                      <div className="not-verified-icon">○</div>
-                    )}
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+                      {v.workshopsVerified && <span className="status-badge verified">Talleres ✓</span>}
+                      {v.socialVerified && <span className="status-badge verified">Social ✓</span>}
+                      {!v.workshopsVerified && !v.socialVerified && <div className="not-verified-icon">○</div>}
+                    </div>
                   </td>
                   
                   <td className="name-cell">

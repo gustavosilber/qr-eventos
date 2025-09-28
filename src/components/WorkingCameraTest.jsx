@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, X, Loader, CheckCircle, XCircle } from 'lucide-react';
 import jsQR from 'jsqr';
-import { findExactAttendee, markAttendeeAsVerified } from '../data/attendees';
+import { findExactAttendee, getAttendeeInfoByName, matchAttendeeName, getVerificationState, canVerifyWorkshops, canVerifySocial, markWorkshopsVerified, markSocialVerified } from '../data/attendees';
 import '../styles/QRScanner.css';
 
 const WorkingCameraTest = () => {
@@ -190,11 +190,14 @@ const WorkingCameraTest = () => {
 
     // Verificar si el asistente está en la lista y marcarlo como verificado
     const fullName = `${qrData.nombre} ${qrData.apellido}`.trim();
-    const foundAttendee = findExactAttendee(fullName);
+    // Fuzzy match más permisivo
+    const match = matchAttendeeName(fullName || qrData.nombre);
+    const foundAttendee = match.matched ? match.bestName : null;
+    const attendeeInfo = match.matched ? match.info : null;
     
     if (foundAttendee) {
       console.log('Asistente encontrado en la lista:', foundAttendee);
-      markAttendeeAsVerified(foundAttendee);
+      // No marcar automáticamente. Se verifica con botones.
     } else {
       console.log('Asistente no encontrado en la lista:', fullName);
     }
@@ -203,7 +206,10 @@ const WorkingCameraTest = () => {
       text: decodedText,
       data: decodedResult,
       parsedData: qrData,
-      attendeeFound: foundAttendee
+      attendeeFound: foundAttendee,
+      attendeeInfo,
+      matchScore: match.score,
+      matchCertainty: match.certainty
     });
     setShowModal(true);
     stopCamera();
@@ -215,6 +221,21 @@ const WorkingCameraTest = () => {
     setShowModal(false);
     setScanAttempts(0);
     setLastDetectionTime(0);
+  };
+
+  const handleVerifyWorkshops = () => {
+    if (!result?.attendeeFound) return;
+    const name = result.attendeeFound;
+    markWorkshopsVerified(name);
+    // refrescar estado en result
+    setResult(prev => ({ ...prev }));
+  };
+
+  const handleVerifySocial = () => {
+    if (!result?.attendeeFound) return;
+    const name = result.attendeeFound;
+    markSocialVerified(name);
+    setResult(prev => ({ ...prev }));
   };
 
   const formatCurrency = (amount) => {
@@ -230,6 +251,21 @@ const WorkingCameraTest = () => {
     console.log('Starting camera...');
     setLoading(true);
     setError(null);
+
+    // Requiere contexto seguro (HTTPS) o localhost
+    const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const isSecure = window.isSecureContext || window.location.protocol === 'https:';
+    if (!isSecure && !isLocalhost) {
+      setLoading(false);
+      setError('La cámara requiere HTTPS o abrirse en localhost. Abre la app en https o usa http://localhost.');
+      return;
+    }
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setLoading(false);
+      setError('Tu navegador no soporta acceso a cámara o está bloqueado.');
+      return;
+    }
 
     // Configuración simplificada para mejor compatibilidad
     const constraints = {
@@ -422,6 +458,14 @@ const WorkingCameraTest = () => {
                           {result.parsedData.nombre || "No especificado"} {result.parsedData.apellido || ""}
                         </div>
                       </div>
+                      {result.attendeeInfo && (
+                        <div className="ticket-field">
+                          <label>TIPO DE ENTRADA</label>
+                          <div className="field-value">
+                            {result.attendeeInfo.tipoEntrada}
+                          </div>
+                        </div>
+                      )}
                       
                       <div className="ticket-field">
                         <label>FECHA DE GENERACIÓN</label>
@@ -446,6 +490,35 @@ const WorkingCameraTest = () => {
                         </div>
                       </div>
                     </div>
+                    {result.attendeeFound && (
+                      (() => {
+                        const name = result.attendeeFound;
+                        const tipo = result.attendeeInfo?.tipoEntrada;
+                        const state = getVerificationState(name);
+                        const allowWorkshops = canVerifyWorkshops(name, tipo);
+                        const allowSocial = canVerifySocial(name, tipo);
+                        return (
+                          <div className="ticket-actions" style={{ marginTop: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                            {allowWorkshops && (
+                              <button className="confirm-button" onClick={handleVerifyWorkshops}>
+                                Verificar Talleres
+                              </button>
+                            )}
+                            {!allowWorkshops && state.workshopsVerified && (
+                              <span className="status-badge verified">Talleres verificados</span>
+                            )}
+                            {allowSocial && (
+                              <button className="confirm-button" onClick={handleVerifySocial}>
+                                Verificar Social
+                              </button>
+                            )}
+                            {!allowSocial && state.socialVerified && (
+                              <span className="status-badge verified">Social verificado</span>
+                            )}
+                          </div>
+                        );
+                      })()
+                    )}
                   </div>
             </div>
           </div>
