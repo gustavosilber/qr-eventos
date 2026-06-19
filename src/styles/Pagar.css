@@ -1,0 +1,67 @@
+.pagar-page { display: flex; flex-direction: column; min-height: 100%; }
+.pagar-hero { position: relative; height: 260px; background-size: cover; background-position: center; }
+.pagar-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.7)); }
+.pagar-hero-content { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; padding: 16px; gap: 8px; }
+.pagar-logo { width: 84px; height: 84px; border-radius: 12px; object-fit: contain; background: rgba(255,255,255,0.85); padding: 8px; }
+.pagar-title { margin: 0; font-size: 24px; }
+.pagar-subtitle { margin: 0; opacity: 0.9; }
+
+.pagar-content { display: flex; justify-content: center; padding: 16px; }
+.pagar-card { width: 100%; max-width: 980px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+.pagar-card-header { display: flex; gap: 16px; align-items: center; padding: 16px; background: #f6f9fb; border-bottom: 1px solid #e6eef5; flex-wrap: wrap; }
+.selector-label { font-weight: 600; }
+.pagar-date { font-weight: 600; }
+.pagar-prices { display: flex; gap: 16px; flex-wrap: wrap; }
+.price-item { 
+  display: flex; 
+  align-items: center;
+  gap: 10px; 
+  background: #fff; 
+  border: 2px solid #e6eef5; 
+  border-radius: 14px; 
+  padding: 14px 20px; 
+  cursor: pointer; 
+  font-size: 18px; 
+  line-height: 1.2; 
+  min-height: 56px; 
+  min-width: 240px; 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.price-item.active { border-color: #25d366; background: #e9f9f0; }
+.price-label { font-weight: 700; letter-spacing: 0.2px; }
+.price-value { color: #0b6; }
+
+.pagar-details { padding: 16px; }
+.pagar-details h3 { margin: 0 0 8px; }
+.pagar-details ul { margin: 0; padding-left: 18px; }
+
+.pagar-cta { padding: 16px; border-top: 1px solid #e6eef5; display: flex; justify-content: flex-end; }
+.buy-button { 
+  background: #25d366; 
+  color: #fff; 
+  border: none; 
+  border-radius: 12px; 
+  padding: 16px 28px; 
+  cursor: pointer; 
+  font-weight: 700; 
+  font-size: 18px; 
+  min-height: 56px; 
+  min-width: 240px; 
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
+}
+.buy-button:hover { filter: brightness(0.96); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.45); }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
+.modal-content { width: 100%; max-width: 640px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; }
+.modal-header { position: relative; padding: 14px 16px; border-bottom: 1px solid #e6eef5; }
+.modal-header h3 { margin: 0 0 0 8px; font-size: 18px; font-weight: 700; text-align: left; padding-right: 36px; }
+.modal-close { position: absolute; top: 10px; right: 10px; background: transparent; border: none; font-size: 22px; cursor: pointer; line-height: 1; }
+.modal-form { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.form-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.form-group { display: flex; flex-direction: column; gap: 6px; min-width: 220px; }
+.form-group input, .form-group select { border: 1px solid #d7dee6; border-radius: 8px; padding: 10px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; padding-top: 4px; }
+.confirm-button { background: #25d366; color: #fff; border: none; border-radius: 10px; padding: 10px 16px; cursor: pointer; font-weight: 600; }
+.cancel-button { background: #f0f3f7; color: #333; border: 1px solid #d7dee6; border-radius: 10px; padding: 10px 16px; cursor: pointer; }
+

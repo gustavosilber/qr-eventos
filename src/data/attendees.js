@@ -298,7 +298,7 @@ const normalizeHeader = (s) => {
     .trim();
 };
 
-const parseAttendeesFromCSV = (raw) => {
+export const parseAttendeesFromCSV = (raw) => {
   try {
     if (!raw || typeof raw !== 'string') return [];
     const lines = raw.trim().split(/\r?\n/);
@@ -340,6 +340,80 @@ const parseAttendeesFromCSV = (raw) => {
 const parsedFromFile = parseAttendeesFromCSV(attendeesCSVRaw);
 export const attendeesDetails = parsedFromFile.length ? parsedFromFile : parseAttendees(legacyAttendeesCSV);
 export const attendeesList = attendeesDetails.map(a => a.nombre);
+
+// ------------------------------
+// Dynamic attendees storage and utilities
+// ------------------------------
+
+const DYNAMIC_ATTENDEES_KEY = 'qrDynamicAttendeesV1';
+
+export const getDynamicAttendeesDetails = () => {
+  try {
+    const raw = localStorage.getItem(DYNAMIC_ATTENDEES_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(a => a && a.nombre);
+  } catch (e) {
+    console.error('Error reading dynamic attendees:', e);
+    return [];
+  }
+};
+
+const saveDynamicAttendeesDetails = (list) => {
+  try {
+    localStorage.setItem(DYNAMIC_ATTENDEES_KEY, JSON.stringify(list || []));
+  } catch (e) {
+    console.error('Error saving dynamic attendees:', e);
+  }
+};
+
+const notifyAttendeesUpdated = () => {
+  try {
+    const ev = new Event('qr-attendees-updated');
+    window.dispatchEvent(ev);
+  } catch {
+    // no-op
+  }
+};
+
+export const clearDynamicAttendees = () => {
+  saveDynamicAttendeesDetails([]);
+  notifyAttendeesUpdated();
+};
+
+export const addDynamicAttendee = ({ nombre, abonado = '', tipoEntrada = '', comprobante = '', qr = false }) => {
+  const cleanNombre = (nombre || '').toString().trim();
+  if (!cleanNombre) return false;
+  const current = getDynamicAttendeesDetails();
+  current.push({ nombre: cleanNombre, abonado, tipoEntrada, comprobante, qr: !!qr });
+  saveDynamicAttendeesDetails(current);
+  notifyAttendeesUpdated();
+  return true;
+};
+
+export const importAttendeesText = (rawText) => {
+  const imported = parseAttendeesFromCSV(rawText) || [];
+  if (imported.length === 0) return { imported: 0 };
+  const current = getDynamicAttendeesDetails();
+  const merged = current.concat(imported);
+  saveDynamicAttendeesDetails(merged);
+  notifyAttendeesUpdated();
+  return { imported: imported.length };
+};
+
+export const getCombinedAttendeesDetails = () => {
+  return [...attendeesDetails, ...getDynamicAttendeesDetails()];
+};
+
+export const getCombinedAttendeesList = () => {
+  return getCombinedAttendeesDetails().map(a => a.nombre);
+};
+
+export const subscribeAttendeesUpdates = (listener) => {
+  const handler = () => listener();
+  window.addEventListener('qr-attendees-updated', handler);
+  return () => window.removeEventListener('qr-attendees-updated', handler);
+};
 
 // Función para obtener el estado de verificación desde localStorage
 export const getVerificationStatus = () => {

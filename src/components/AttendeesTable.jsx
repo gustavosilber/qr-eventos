@@ -3,6 +3,9 @@ import { CheckCircle, Users, RefreshCw, Smile } from 'lucide-react';
 import { 
   attendeesList, 
   attendeesDetails,
+  getCombinedAttendeesList,
+  getCombinedAttendeesDetails,
+  subscribeAttendeesUpdates,
   getVerificationStatus, 
   markAttendeeAsVerified
 } from '../data/attendees';
@@ -12,11 +15,14 @@ const AttendeesTable = () => {
   const [verificationStatus, setVerificationStatus] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name'); // 'name' or 'status'
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
     // Cargar el estado de verificación desde localStorage
     const status = getVerificationStatus();
     setVerificationStatus(status);
+    const unsub = subscribeAttendeesUpdates(() => setVersion(v => v + 1));
+    return unsub;
   }, []);
 
   // Función para marcar un asistente como verificado manualmente
@@ -34,7 +40,8 @@ const AttendeesTable = () => {
   };
 
   // Filtrar y ordenar la lista (sin deduplicar, mantener todas las filas)
-  const filteredAndSortedAttendees = attendeesList
+  const baseList = getCombinedAttendeesList();
+  const filteredAndSortedAttendees = baseList
     .filter(attendee => 
       attendee.toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -51,7 +58,7 @@ const AttendeesTable = () => {
     });
 
   const verifiedCount = Object.values(verificationStatus).filter(status => status.socialVerified || status.verified).length;
-  const totalCount = attendeesDetails.length;
+  const totalCount = getCombinedAttendeesDetails().length;
 
   return (
     <div className="attendees-table-container">

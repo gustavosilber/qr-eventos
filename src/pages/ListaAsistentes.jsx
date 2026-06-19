@@ -1,5 +1,6 @@
 import React from 'react';
 import AttendeesTable from '../components/AttendeesTable';
+import AttendeesManager from '../components/AttendeesManager';
 import '../styles/ListaAsistentes.css';
 
 const ListaAsistentes = () => {
@@ -10,6 +11,7 @@ const ListaAsistentes = () => {
         <p>Gestiona y verifica la asistencia de los invitados al evento</p>
       </div>
       
+      <AttendeesManager />
       <AttendeesTable />
     </div>
   );

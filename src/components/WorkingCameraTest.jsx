@@ -123,24 +123,36 @@ const WorkingCameraTest = () => {
   const handleScanSuccess = (decodedText, decodedResult) => {
     console.log('QR Raw data:', decodedText);
     
-    // Parsear los datos del QR (asumiendo formato JSON)
+    // Parsear datos del QR: formato simple preferido y JSON como fallback
     let qrData = {};
     try {
-      qrData = JSON.parse(decodedText);
-      console.log('Parsed QR data (JSON):', qrData);
-      
-      // Mapear campos del JSON a nuestro formato
-      qrData = {
-        nombre: qrData.nombre || qrData.name || "No especificado",
-        apellido: qrData.apellido || qrData.lastName || qrData.apellidos || "",
-        total: qrData.monto || qrData.total || qrData.amount || qrData.precio || "0",
-        timestamp: qrData.timestamp || qrData.fecha || Date.now(),
-        evento: qrData.evento || qrData.event || "",
-        ubicacion: qrData.ubicacion || qrData.location || "",
-        hora: qrData.hora || qrData.time || ""
-      };
-      
-      console.log('Mapped QR data:', qrData);
+      // Intento 1: Formato simple "MBSE|Nombre Apellido|Monto"
+      if (decodedText.startsWith('MBSE|')) {
+        const parts = decodedText.split('|');
+        const fullName = (parts[1] || '').trim();
+        const maybeAmount = (parts[2] || '').trim();
+        const [firstName = '', lastName = ''] = fullName.split(/\s+(.*)/);
+        qrData = {
+          nombre: firstName || 'No especificado',
+          apellido: lastName || '',
+          total: maybeAmount || '0',
+          timestamp: Date.now(),
+          evento: 'MERLO BAILA SILBER Edition'
+        };
+        console.log('Parsed QR data (MBSE simple):', qrData);
+      } else {
+        // Intento 2: JSON
+        const parsed = JSON.parse(decodedText);
+        console.log('Parsed QR data (JSON):', parsed);
+        qrData = {
+          nombre: parsed.nombre || parsed.name || 'No especificado',
+          apellido: parsed.apellido || parsed.lastName || parsed.apellidos || '',
+          total: parsed.monto || parsed.total || parsed.amount || parsed.precio || '0',
+          timestamp: parsed.timestamp || parsed.fecha || Date.now(),
+          evento: parsed.evento || parsed.event || ''
+        };
+        console.log('Mapped QR data:', qrData);
+      }
     } catch (e) {
       console.log('Failed to parse JSON, extracting from raw text');
       // Si no es JSON, intentar extraer datos del texto de múltiples formas
@@ -332,13 +344,8 @@ const WorkingCameraTest = () => {
             </button>
             <button 
               onClick={() => {
-                const testQR = JSON.stringify({
-                  nombre: "FABIANA ROBLEDO",
-                  monto: "15.000",
-                  timestamp: new Date().toISOString(),
-                  evento: "MERLO BAILA SILBER Edition"
-                });
-                handleScanSuccess(testQR, { data: testQR });
+                  const testQR = 'MBSE|FABIANA ROBLEDO|15000';
+                  handleScanSuccess(testQR, { data: testQR });
               }} 
               className="test-button"
             >

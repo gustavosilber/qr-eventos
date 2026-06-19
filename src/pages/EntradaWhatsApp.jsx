@@ -95,15 +95,8 @@ const EntradaWhatsApp = () => {
     }
   }
 
-  const qrData = {
-    evento: 'MERLO BAILA SILBER Edition',
-    fecha: '2024-09-27',
-    hora: '22:00',
-    ubicacion: 'Merlo Mutiespacio, Merlo - San Luis',
-    nombre: `${formData.nombre} ${formData.apellido}`,
-    monto: formData.monto,
-    timestamp: new Date().toISOString()
-  }
+  // Formato simple y robusto para lectura: PREFIX|Nombre Apellido|Monto
+  const qrValue = `MBSE|${(formData.nombre || '').trim()} ${(formData.apellido || '').trim()}|${(formData.monto || '').toString().trim()}`
 
   return (
     <div className="entrada-whatsapp">
@@ -213,10 +206,10 @@ const EntradaWhatsApp = () => {
                   </div>
 
                   <div className="qr-section">
-                                                    <QRCode
-                                  value={JSON.stringify(qrData)}
+                                <QRCode
+                                  value={qrValue}
                                   size={216}
-                                  level="H"
+                                  level="M"
                                   includeMargin={true}
                                 />
                   </div>

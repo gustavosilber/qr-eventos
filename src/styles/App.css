@@ -9,6 +9,17 @@
   padding-top: 80px; /* Space for navbar */
 }
 
+.main-content.no-navbar {
+  padding-top: 0;
+}
+
+.main-content.pagar-background {
+  background-image: url('/images/background.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 /* Container for pages */
 .page-container {
   max-width: 1200px;

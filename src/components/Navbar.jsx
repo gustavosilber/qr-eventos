@@ -44,11 +44,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/escanear-qr" className={`nav-link ${isActive('/escanear-qr')}`}>
-              <Scan size={20} />
-              <span>Escanear QR</span>
+            <Link to="/pagar" className={`nav-link ${isActive('/pagar')}`}>
+              <QrCode size={20} />
+              <span>Comprar</span>
             </Link>
           </li>
+          
                         <li className="nav-item">
                 <Link to="/escanear-entrada" className={`nav-link ${isActive('/escanear-entrada')}`}>
                   <Scan size={20} />
