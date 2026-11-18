@@ -1,0 +1,249 @@
+.stats-page {
+  max-width: 1100px;
+}
+
+.stats-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 1.75rem 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.stats-section-title:first-of-type {
+  margin-top: 0;
+}
+
+.stat-card .stat-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.stats-row-3 {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.payment-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.payment-stat-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.payment-stat-card strong {
+  font-size: 0.95rem;
+}
+
+.payment-stat-amount {
+  font-weight: 700;
+  color: var(--brand-pink);
+  margin-top: 0.25rem;
+}
+
+.stats-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.stats-filter {
+  min-width: 220px;
+  max-width: 320px;
+}
+
+.stats-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 800px) {
+  .stats-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.bar-row .bar-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.bar-track {
+  height: 28px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--gradient-brand);
+  min-width: 4px;
+  transition: width 0.4s ease;
+}
+
+.bar-fill.green {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.bar-fill.purple {
+  background: linear-gradient(90deg, #7c3aed, #7209b7);
+}
+
+.bar-value {
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 72px;
+  text-align: right;
+}
+
+.tier-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.tier-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.tier-row-main strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.tier-row-main span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.tier-row-stats {
+  text-align: right;
+  font-size: 0.82rem;
+}
+
+.tier-row-stats strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--brand-pink);
+}
+
+.free-pass-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.fp-mini {
+  text-align: center;
+  padding: 0.85rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.fp-mini .num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.fp-mini .lbl {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.15rem;
+}
+
+.insights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.insight-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.85rem 1rem;
+  background: var(--gradient-soft);
+  border: 1px solid rgba(233, 30, 140, 0.15);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.insight-item .insight-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-pink);
+}
+
+.revenue-multi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.revenue-multi span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}

@@ -47,6 +47,43 @@ npm run dev
 
 4. Abre tu navegador en `http://localhost:3000`
 
+## 🗄️ Base de datos (Postgres con Drizzle)
+
+Este proyecto usa Postgres serverless (Neon/Vercel Postgres) con Drizzle ORM.
+
+### Variables de entorno necesarias
+
+En `.env.local` agrega (valores de ejemplo):
+
+```bash
+VITE_GOOGLE_CLIENT_ID=...apps.googleusercontent.com
+GOOGLE_CLIENT_ID=...apps.googleusercontent.com
+POSTGRES_URL=postgres://user:password@host/db?sslmode=require
+```
+
+### Migraciones
+
+Generar y aplicar migraciones (requiere `POSTGRES_URL` válido):
+
+```bash
+npm run db:generate
+npm run db:migrate
+```
+
+### Desarrollo local con APIs de Vercel
+
+- Instala Vercel CLI y corre el runtime local:
+
+```bash
+npx vercel dev
+```
+
+- Vite corre en `http://localhost:5180` y se proxya `/api` hacia `http://localhost:3000` (Vercel dev).
+
+Endpoints:
+- `GET /api/events` → lista eventos del usuario (requiere `Authorization: Bearer <google_id_token>`)
+- `POST /api/events` → crea evento `{ title, date, location, description }`
+
 ## 🚀 Scripts Disponibles
 
 - `npm run dev`: Inicia el servidor de desarrollo

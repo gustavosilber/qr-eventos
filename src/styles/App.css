@@ -6,11 +6,18 @@
 
 .main-content {
   flex: 1;
-  padding-top: 80px; /* Space for navbar */
+  padding-top: 64px;
+  background: var(--bg);
+  color: var(--text);
 }
 
-.main-content.no-navbar {
+.main-content.no-navbar,
+.main-content.shell-mode {
   padding-top: 0;
+}
+
+.main-content.shell-mode {
+  background: transparent;
 }
 
 .main-content.pagar-background {
@@ -25,6 +32,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  color: var(--text);
 }
 
 /* Page headers */
@@ -34,14 +42,14 @@
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
-  color: #25d366;
+  font-size: 2.4rem;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
 
 .page-header p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 /* Loading states */
@@ -55,8 +63,8 @@
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #25d366;
+  border: 4px solid var(--surface-2);
+  border-top: 4px solid var(--accent);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -70,7 +78,7 @@
 .error {
   text-align: center;
   padding: 2rem;
-  color: #e74c3c;
+  color: #ef4444;
 }
 
 .error-icon {
@@ -82,7 +90,7 @@
 .success {
   text-align: center;
   padding: 2rem;
-  color: #27ae60;
+  color: #10b981;
 }
 
 .success-icon {
@@ -93,7 +101,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 70px;
+    padding-top: 64px;
   }
   
   .page-container {
